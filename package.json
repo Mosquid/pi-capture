@@ -1,0 +1,15 @@
+{
+  "name": "pi-capture",
+  "version": "1.0.0",
+  "description": "Remote raspberry camera control via web interface",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'passed'"
+  },
+  "keywords": [
+    "raspberry",
+    "camera"
+  ],
+  "author": "mosquid",
+  "license": "ISC"
+}
