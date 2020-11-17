@@ -3,7 +3,7 @@ const fs = require('fs')
 const { exec } = require('child_process')
 const { promisify } = util
 const shell = promisify(exec)
-const folder = './images/'
+const folder = __dirname + '/images/'
 
 async function captureImage(_, res) {
   try {
