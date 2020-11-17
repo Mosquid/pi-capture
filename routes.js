@@ -11,6 +11,7 @@ async function captureImage(_, res) {
     await shell(`raspistill -v -o ${folder}/${ts}.jpg`)
 
     res.writeHead(301, {
+      'Cache-Control': 'no-cache',
       Location: 'image',
     })
     res.end()
