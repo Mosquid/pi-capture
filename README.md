@@ -1,4 +1,4 @@
-# pi-capture
+# PI Capture
 
 ### A simple web interface for capturing images with Raspberry PI
 
