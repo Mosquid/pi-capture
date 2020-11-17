@@ -23,7 +23,7 @@ async function captureImage(_, res) {
 async function handleImageRequest(_, res) {
   const files = fs.readdirSync(folder)
   const images = files.filter((file) => file.endsWith('.jpg'))
-  const [latest] = images
+  const [latest] = images.reverse()
   const binary = fs.readFileSync(folder + latest)
 
   res.writeHead(200, { 'Content-Type': 'image/jpg' })
