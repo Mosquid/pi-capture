@@ -1,4 +1,5 @@
 const http = require('http')
+const url = require('url')
 const { captureImage, handleImageRequest } = require('./routes')
 
 const port = process.env.port || 1488
@@ -8,9 +9,9 @@ const router = {
 }
 
 async function requestHandler(req, res) {
-  const { url } = req
+  const { pathname } = url.parse(req.url, true)
 
-  if (router.hasOwnProperty(url)) return router[url](...arguments)
+  if (router.hasOwnProperty(pathname)) return router[pathname](...arguments)
 
   res.writeHead(404)
   res.end('Not found')

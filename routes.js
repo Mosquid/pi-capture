@@ -1,4 +1,6 @@
 const util = require('util')
+const querystring = require('querystring')
+const url = require('url')
 const fs = require('fs')
 const { exec } = require('child_process')
 const { promisify } = util
@@ -21,14 +23,26 @@ async function captureImage(_, res) {
   }
 }
 
-async function handleImageRequest(_, res) {
-  const files = fs.readdirSync(folder)
-  const images = files.filter((file) => file.endsWith('.jpg'))
-  const [latest] = images.reverse()
-  const binary = fs.readFileSync(folder + latest)
+async function handleImageRequest(req, res) {
+  try {
+    const files = fs.readdirSync(folder)
+    const images = files.filter((file) => file.endsWith('.jpg')).reverse()
+    const [latest] = images
+    const { query } = url.parse(req.url)
+    const params = querystring.parse(query)
+    const _offset = parseInt(params.offset)
+    const offset = isNaN(parseInt(_offset))
+      ? 0
+      : Math.min(images.length - 1, parseInt(_offset))
+    const imageFile = offset ? images[offset] : latest
+    const binary = fs.readFileSync(folder + imageFile)
 
-  res.writeHead(200, { 'Content-Type': 'image/jpg' })
-  res.end(binary, 'binary')
+    res.writeHead(200, { 'Content-Type': 'image/jpg' })
+    res.end(binary, 'binary')
+  } catch (error) {
+    res.writeHead(400)
+    res.end(error)
+  }
 }
 
 module.exports.captureImage = captureImage
